@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Becx Search</title>
+  <style>
+    body {
+      background: #111;
+      color: white;
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    h1 {
+      font-size: 48px;
+      color: #00c3ff;
+    }
+    input {
+      padding: 12px 20px;
+      width: 60%;
+      border-radius: 25px;
+      border: 2px solid #00c3ff;
+      font-size: 18px;
+      background: #222;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h1> Becx Search</h1>
+  <input id="search-box" placeholder="Search the web..." />
+  <script>
+    document.getElementById("search-box").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        const query = e.target.value.trim();
+        if (query) {
+          location.href = `https://duckduckgo.com/?q=${encodeURIComponent(query)}`;
+        }
+      }
+    });
+  </script>
+</body>
+</html>

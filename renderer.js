@@ -15,8 +15,8 @@ let downloads = [];
 // Initialize first tab
 tabs.set('tab-1', {
   id: 'tab-1',
-  url: 'https://www.wikipedia.org',
-  title: 'Wikipedia'
+  url: 'becx.html',
+  title: 'search'
 });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -108,7 +108,7 @@ function createNewTab() {
   
   tabs.set(newTabId, {
     id: newTabId,
-    url: 'https://www.wikipedia.org',
+    url: 'becx.html',
     title: 'New Tab'
   });
 
@@ -130,7 +130,7 @@ function createNewTab() {
   const newWrapper = document.createElement('div');
   newWrapper.className = 'webview-wrapper';
   newWrapper.setAttribute('data-tab-id', newTabId);
-  newWrapper.innerHTML = `<webview id="webview-${newTabId}" src="https://www.wikipedia.org"></webview>`;
+  newWrapper.innerHTML = `<webview id="webview-${newTabId}" src="becx.html"></webview>`;
   
   webviewContainer.appendChild(newWrapper);
 
