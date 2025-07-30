@@ -10,19 +10,54 @@ function createWindow() {
       nodeIntegration: true,
       contextIsolation: false,
       webviewTag: true, 
-      webSecurity: false // this is when i told you i disabled it so to access the internet without them coming after my skin
+      webSecurity: false 
     }
   });
 
+  const filter = { urls: ["*://*/*"] };
+
+win.webContents.session.webRequest.onBeforeRequest(filter, (details, callback) => {
+  win.webContents.executeJavaScript(`localStorage.getItem("becx-adblock")`)
+    .then(adblock => {
+      if (adblock === "true") {
+        const blocked = [
+          "doubleclick.net",
+          "googlesyndication.com",
+          "adservice.google.com",
+          "ads.yahoo.com",
+          "facebook.net/ads",
+          "adnxs.com",
+          "popads.net",
+          "trackers"
+        ];
+
+        const isAd = blocked.some(domain => details.url.includes(domain));
+        if (isAd) {
+          console.log("🚫 Blocked Ad:", details.url);
+          return callback({ cancel: true });
+        }
+      }
+
+      
+      return callback({});
+    })
+    .catch((err) => {
+      console.error("Failed to read adblock setting:", err);
+      callback({});
+    });
+});
+
+
+
   win.loadFile('index.html');
 
-  // Handle downloads
+  
   win.webContents.session.on('will-download', (event, item, webContents) => {
-    // Set the save path - you can customize this
+    
     const downloadPath = path.join(app.getPath('downloads'), item.getFilename());
     item.setSavePath(downloadPath);
 
-    // Send download info to renderer
+    
     win.webContents.send('download-started', {
       filename: item.getFilename(),
       url: item.getURL(),
@@ -59,7 +94,7 @@ function createWindow() {
   });
 }
 
-// IPC handlers for file operations
+
 ipcMain.handle('open-downloads-folder', async () => {
   const downloadsPath = app.getPath('downloads');
   shell.openPath(downloadsPath);

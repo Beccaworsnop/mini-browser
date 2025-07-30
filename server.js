@@ -1,4 +1,4 @@
-// ignore this fully it's about my AI friendo backend side , the server is working but i'm to broke to afford the API 
+
 require('dotenv').config();
 
 

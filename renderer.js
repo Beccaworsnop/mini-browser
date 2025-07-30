@@ -4,7 +4,7 @@ let history = [];
 let currentIndex = -1;
 let currentTheme = 'dark';
 
-// New variables for added features
+
 let tabs = new Map();
 let currentTabId = 'tab-1';
 let tabCounter = 1;
@@ -12,7 +12,7 @@ let bookmarks = [];
 let browserHistory = [];
 let downloads = [];
 
-// Initialize first tab
+
 tabs.set('tab-1', {
   id: 'tab-1',
   url: 'becx.html',
@@ -48,6 +48,20 @@ document.addEventListener('DOMContentLoaded', () => {
       closeSettings();
     }
   });
+
+  window.addEventListener('DOMContentLoaded', () => {
+  const adblockCheckbox = document.getElementById("adblock-toggle");
+  const storedAdblock = localStorage.getItem("becx-adblock");
+
+  if (adblockCheckbox) {
+    adblockCheckbox.checked = storedAdblock === "true";
+    adblockCheckbox.addEventListener("change", () => {
+      localStorage.setItem("becx-adblock", adblockCheckbox.checked);
+      location.reload(); // Force reload to apply
+    });
+  }
+});
+
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
@@ -101,7 +115,7 @@ function setupDownloadListeners() {
   }
 }
 
-// Tab Management
+
 function createNewTab() {
   tabCounter++;
   const newTabId = `tab-${tabCounter}`;
@@ -228,7 +242,7 @@ function applyTheme(theme) {
   }
 }
 
-// Browser Functions - YOUR ORIGINAL CODE
+
 function loadPage(url = null) {
   const input = document.getElementById('url');
   let finalUrl = url || input.value;
@@ -291,7 +305,7 @@ document.getElementById('input').addEventListener('keypress', (e) => {
   }
 });
 
-// Bookmarks
+
 function bookmarkCurrentPage() {
   const currentTab = tabs.get(currentTabId);
   const url = document.getElementById('url').value;
@@ -337,7 +351,7 @@ function exportBookmarks() {
   a.click();
 }
 
-// History
+
 function addToBrowserHistory(url, title) {
   browserHistory = browserHistory.filter(item => item.url !== url);
   
@@ -379,7 +393,7 @@ function exportHistory() {
   a.click();
 }
 
-// Downloads
+
 function clearDownloads() {
   if (confirm('Clear downloads list?')) {
     downloads = [];
@@ -396,7 +410,7 @@ function openDownloadsFolder() {
   }
 }
 
-// UI Updates
+
 function updateBookmarksList() {
   const container = document.getElementById('bookmarks-list');
   
@@ -457,7 +471,7 @@ function updateDownloadsList() {
   `).join('');
 }
 
-// YOUR ORIGINAL AI FUNCTION - UNTOUCHED
+
 async function talkToBecbop() {
   const input = document.getElementById("input");
   const resBox = document.getElementById("response");

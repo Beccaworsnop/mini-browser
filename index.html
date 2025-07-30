@@ -44,7 +44,7 @@
         flex-direction: column;
       }
 
-      /* Tab Bar Styles */
+      
       #tab-bar {
         display: flex;
         background: var(--bg-secondary);
@@ -336,7 +336,7 @@
         color: var(--text-primary);
       }
 
-      /* Lists for bookmarks, history, downloads */
+      
       .list-container {
         max-height: 200px;
         overflow-y: auto;
@@ -435,7 +435,7 @@
   </head>
   <body>
     <div id="main">
-      <!-- Tab Bar -->
+     
       <div id="tab-bar">
         <div class="tab active" data-tab-id="tab-1" onclick="switchTab('tab-1')">
           <div class="tab-title">New Tab</div>
@@ -444,7 +444,7 @@
         <button class="new-tab-btn" onclick="createNewTab()">+</button>
       </div>
 
-      <!-- Controls -->
+      
       <div id="controls">
         <button onclick="goBack()">←</button>
         <button onclick="goForward()">→</button>
@@ -455,7 +455,7 @@
         <button id="settings-btn" onclick="openSettings()">⚙️</button>
       </div>
 
-      <!-- Webview Container -->
+      
       <div id="webview-container">
         <div class="webview-wrapper active" data-tab-id="tab-1">
           <webview id="webview-tab-1" src="https://www.wikipedia.org"></webview>
@@ -469,7 +469,7 @@
       <button onclick="talkToBecbop()">Ask</button>
     </div>
 
-    <!-- Settings Modal -->
+   
     <div id="settings-modal">
       <div id="settings-content">
         <div id="settings-header">
@@ -488,6 +488,13 @@
             </div>
           </div>
         </div>
+        <div class="setting-group">
+         <label class="setting-label">Ad Blocker</label>
+         <label style="display: flex; align-items: center; gap: 10px;">
+         <input type="checkbox" id="adblock-toggle" />
+          Enable Ad Blocking
+          </label>
+          </div>
 
         <div class="setting-group">
           <label class="setting-label">Bookmarks</label>
