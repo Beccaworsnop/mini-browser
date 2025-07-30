@@ -44,6 +44,82 @@
         flex-direction: column;
       }
 
+      /* Tab Bar Styles */
+      #tab-bar {
+        display: flex;
+        background: var(--bg-secondary);
+        border-bottom: 1px solid var(--border);
+        min-height: 40px;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+
+      #tab-bar::-webkit-scrollbar {
+        display: none;
+      }
+
+      .tab {
+        display: flex;
+        align-items: center;
+        padding: 8px 12px;
+        background: var(--bg-tertiary);
+        border-right: 1px solid var(--border);
+        cursor: pointer;
+        min-width: 180px;
+        max-width: 220px;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .tab.active {
+        background: var(--bg-primary);
+        border-bottom: 2px solid var(--accent);
+      }
+
+      .tab:hover {
+        background: var(--bg-response);
+      }
+
+      .tab-title {
+        flex: 1;
+        font-size: 13px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-right: 8px;
+      }
+
+      .tab-close {
+        background: none;
+        border: none;
+        color: var(--text-secondary);
+        cursor: pointer;
+        padding: 2px 4px;
+        border-radius: 3px;
+        font-size: 16px;
+        line-height: 1;
+      }
+
+      .tab-close:hover {
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+      }
+
+      .new-tab-btn {
+        background: transparent;
+        border: none;
+        color: var(--text-secondary);
+        cursor: pointer;
+        padding: 8px 12px;
+        font-size: 18px;
+        transition: all 0.3s ease;
+      }
+
+      .new-tab-btn:hover {
+        background: var(--bg-tertiary);
+        color: var(--text-primary);
+      }
+
       #controls {
         display: flex;
         gap: 8px;
@@ -85,6 +161,22 @@
         transform: translateY(-1px);
       }
 
+      #webview-container {
+        flex: 1;
+        position: relative;
+      }
+
+      .webview-wrapper {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        display: none;
+      }
+
+      .webview-wrapper.active {
+        display: block;
+      }
+
       webview {
         width: 100%;
         height: 100%;
@@ -113,7 +205,6 @@
         transition: all 0.3s ease;
       }
 
-     
       #settings-modal {
         display: none;
         position: fixed;
@@ -134,8 +225,10 @@
         background: var(--bg-secondary);
         border-radius: 15px;
         padding: 30px;
-        width: 400px;
+        width: 500px;
         max-width: 90vw;
+        max-height: 80vh;
+        overflow-y: auto;
         border: 1px solid var(--border);
         box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         transition: all 0.3s ease;
@@ -225,7 +318,7 @@
         font-weight: bold;
       }
 
-      #settings-btn {
+      #settings-btn, #bookmark-btn {
         background: transparent;
         color: var(--text-secondary);
         padding: 8px;
@@ -238,12 +331,103 @@
         justify-content: center;
       }
 
-      #settings-btn:hover {
+      #settings-btn:hover, #bookmark-btn:hover {
         background: var(--bg-tertiary);
         color: var(--text-primary);
       }
 
-      
+      /* Lists for bookmarks, history, downloads */
+      .list-container {
+        max-height: 200px;
+        overflow-y: auto;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: var(--bg-tertiary);
+      }
+
+      .list-item {
+        padding: 10px;
+        border-bottom: 1px solid var(--border);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: background-color 0.3s ease;
+      }
+
+      .list-item:hover {
+        background: var(--bg-response);
+      }
+
+      .list-item:last-child {
+        border-bottom: none;
+      }
+
+      .list-item-title {
+        font-weight: 500;
+        margin-bottom: 4px;
+        color: var(--text-primary);
+      }
+
+      .list-item-url {
+        font-size: 12px;
+        color: var(--text-secondary);
+        word-break: break-all;
+      }
+
+      .list-item-info {
+        flex: 1;
+      }
+
+      .list-item-actions {
+        display: flex;
+        gap: 5px;
+      }
+
+      .list-item-btn {
+        background: transparent;
+        border: none;
+        color: var(--text-secondary);
+        cursor: pointer;
+        padding: 4px;
+        border-radius: 3px;
+        font-size: 14px;
+      }
+
+      .list-item-btn:hover {
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+      }
+
+      .empty-list {
+        padding: 20px;
+        text-align: center;
+        color: var(--text-secondary);
+        font-style: italic;
+      }
+
+      .action-buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .action-btn {
+        flex: 1;
+        padding: 8px 12px;
+        background: var(--bg-tertiary);
+        color: var(--text-primary);
+        border: 1px solid var(--border);
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .action-btn:hover {
+        background: var(--accent);
+        color: var(--accent-text);
+      }
+
       * {
         transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
       }
@@ -251,23 +435,41 @@
   </head>
   <body>
     <div id="main">
+      <!-- Tab Bar -->
+      <div id="tab-bar">
+        <div class="tab active" data-tab-id="tab-1" onclick="switchTab('tab-1')">
+          <div class="tab-title">New Tab</div>
+          <button class="tab-close" onclick="closeTab(event, 'tab-1')">&times;</button>
+        </div>
+        <button class="new-tab-btn" onclick="createNewTab()">+</button>
+      </div>
+
+      <!-- Controls -->
       <div id="controls">
         <button onclick="goBack()">←</button>
         <button onclick="goForward()">→</button>
         <button onclick="goHome()">🏠</button>
         <input id="url" placeholder="Enter URL here" />
         <button onclick="loadPage()">Go</button>
+        <button id="bookmark-btn" onclick="bookmarkCurrentPage()">⭐</button>
         <button id="settings-btn" onclick="openSettings()">⚙️</button>
       </div>
-      <webview id="view" src="https://www.wikipedia.org"></webview>
+
+      <!-- Webview Container -->
+      <div id="webview-container">
+        <div class="webview-wrapper active" data-tab-id="tab-1">
+          <webview id="webview-tab-1" src="https://www.wikipedia.org"></webview>
+        </div>
+      </div>
     </div>
     
     <div id="ai-panel">
-      <div id="response">Hi, I'm BecBop Ask me anything!</div>
+      <div id="response">Hi, I'm BecBop! Ask me anything!</div>
       <textarea id="input" rows="3" placeholder="Type here..."></textarea>
       <button onclick="talkToBecbop()">Ask</button>
     </div>
 
+    <!-- Settings Modal -->
     <div id="settings-modal">
       <div id="settings-content">
         <div id="settings-header">
@@ -286,13 +488,47 @@
             </div>
           </div>
         </div>
+
+        <div class="setting-group">
+          <label class="setting-label">Bookmarks</label>
+          <div id="bookmarks-list" class="list-container">
+            <div class="empty-list">No bookmarks yet</div>
+          </div>
+          <div class="action-buttons">
+            <button class="action-btn" onclick="clearBookmarks()">Clear All</button>
+            <button class="action-btn" onclick="exportBookmarks()">Export</button>
+          </div>
+        </div>
+
+        <div class="setting-group">
+          <label class="setting-label">History</label>
+          <div id="history-list" class="list-container">
+            <div class="empty-list">No history yet</div>
+          </div>
+          <div class="action-buttons">
+            <button class="action-btn" onclick="clearHistory()">Clear All</button>
+            <button class="action-btn" onclick="exportHistory()">Export</button>
+          </div>
+        </div>
+
+        <div class="setting-group">
+          <label class="setting-label">Downloads</label>
+          <div id="downloads-list" class="list-container">
+            <div class="empty-list">No downloads yet</div>
+          </div>
+          <div class="action-buttons">
+            <button class="action-btn" onclick="clearDownloads()">Clear List</button>
+            <button class="action-btn" onclick="openDownloadsFolder()">Open Folder</button>
+          </div>
+        </div>
         
         <div class="setting-group">
           <label class="setting-label">About</label>
           <p style="color: var(--text-secondary); font-size: 14px; margin: 0;">
-            Becx Browser v1.0<br>
+            Becx Browser v2.0<br>
             Built with Electron & OpenAI<br>
-            Theme: <span id="current-theme">Dark</span>
+            Theme: <span id="current-theme">Dark</span><br>
+            Tabs: <span id="tab-count">1</span> | Bookmarks: <span id="bookmark-count">0</span>
           </p>
         </div>
       </div>
